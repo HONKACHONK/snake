@@ -10,15 +10,18 @@ int boardX = 20;
 int boardY = 40;
 
 vector<vector<int> > board(boardX, vector<int>(boardY));
+vector<vector<int> > tailboard(boardX, vector<int>(boardY));
 
 int headX = 10;
 int headY = 10;
-int tailX = 9;
-int tailY = 10;
+int tailX = 10;
+int tailY = 11;
 int appleX = 8;
 int appleY = 10;
 int score = 1;
 int gameOver = 0;
+int dir = 1; //0=up, 1=right, 2=down, 3=left
+int taildir = 1;
 
 
 void setup() {
@@ -43,7 +46,7 @@ void draw() {
 	/**
 	draws the board
 	*/
-	cout << "\033[2J\033[0;0H"; //no idea how, but clears the screen
+	cout << "\033[2J\033[0;0H"; //no idea how, but this clears the screen
 	for (int i = 0; i < boardX; i++) {
 		for (int j = 0; j < boardY; j++) {
 			if (board[i][j] == 1)
@@ -54,7 +57,8 @@ void draw() {
 				cout << "0";
 			else if (board[i][j] == 3)
 				cout << "*";
-			
+			else if (board[i][j] == 4)
+				cout << "0";
 		}
 		cout << "\n";
 	}
@@ -64,10 +68,8 @@ void logic() {
 	/**
 	performs all logic
 	*/
-
+	tailboard[headX][headY] = dir;
 	
-	int dir = 1; //0=up, 1=right, 2=down, 3=left
-	//(getdirection)
 	switch (dir) {
 		case 0:
 			headY++;
@@ -78,25 +80,43 @@ void logic() {
 		case 3:
 			headX--;
 	}
+
+	if ((board[headX][headY] == 1) || ((board[headX][headY] == 2) && (board[headX][headY] != 1))) {
+		gameOver++;
+	}
+	
 	if ((headX == appleX) && (headY == appleY)) {
 		score++;
 		board[appleX][appleY] = 0;
 		appleX = rand() % (boardX - 2) + 1;
 		appleY = rand() % (boardY - 2) + 1;
 	}
-	//(tail logic)
+	board[tailX][tailY] = 0;
+	taildir = (tailboard[tailX][tailY] + 1);
+	tailboard[tailX][tailY] = 0;
+		
+	switch (taildir) {
+		case 1:
+			tailY++;
+		case 2:
+			tailX++;
+		case 3:
+			tailY--;
+		case 4:
+			tailX--;
+	}
 	
 	board[headX][headY] = 2;
-	board[tailX][tailY] = 0;
+	
 	board[appleX][appleY] = 3;
 }
 
 int main() {
   setup();
 	draw();
-	for (int i = 0; i < 10; i++) {
+	while (gameOver == 0) {
+		this_thread::sleep_for(chrono::milliseconds(100));
 		logic();
 		draw();
-		this_thread::sleep_for(chrono::milliseconds(1000));
 	}
 }
