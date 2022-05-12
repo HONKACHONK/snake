@@ -27,32 +27,6 @@ int dir = 1; //0=up, 1=right, 2=down, 3=left
 int taildir = 1;
 int init = 0;
 
-
-int keypress() {
-  system ("/bin/stty raw");
-  int c;
-  system ("/bin/stty -echo");
-  c = getc(stdin);
-  system ("/bin/stty echo");
-  system ("/bin/stty cooked");
-	int d;
-	switch(c) {
-		case 119:
-			d = 0;
-			break;
-		case 97:
-			d = 3;
-			break;
-		case 115:
-			d = 2;
-			break;
-		case 100:
-			d = 1;
-			break;
-	}
-  return d;
-}
-
 void setup() {
 	/**
 	initializes everything
