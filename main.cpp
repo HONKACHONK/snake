@@ -5,7 +5,7 @@
 #include <chrono>
 #include <stdlib.h>
 #include <stdio.h>
-#include "conio.h"
+#include <conio.h>
 
 using namespace std;
 
@@ -49,7 +49,7 @@ void draw() {
 	/**
 	draws the board
 	*/
-	cout << "\033[2J\033[0;0H";
+	system('cls');
 	cout << "score: " << score << "\n";
 	for (int i = 0; i < boardX; i++) {
 		for (int j = 0; j < boardY; j++) {
