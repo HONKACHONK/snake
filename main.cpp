@@ -100,7 +100,7 @@ void logic() {
 	if (init == 0)
 		tailboard[tailX][tailY] = 1;
 			
-	tailboard[headX][headY] = d97ir;
+	tailboard[headX][headY] = dir;
 
 	if (_kbhit()) {
 		switch(_getch()) {
