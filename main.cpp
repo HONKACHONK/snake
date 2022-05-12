@@ -5,7 +5,7 @@
 #include <chrono>
 #include <stdlib.h>
 #include <stdio.h>
-#include <conio.h>
+#include "conio.h"
 
 using namespace std;
 
@@ -17,14 +17,14 @@ vector<vector<int> > tailboard(boardX, vector<int>(boardY));
 
 int headX = 10;
 int headY = 10;
-int tailX = 10;
-int tailY = 11;
+int tailX = 11;
+int tailY = 10;
 int appleX = 8;
 int appleY = 10;
 int score = 1;
 int gameOver = 0;
 int dir = 1; //0=up, 1=right, 2=down, 3=left
-int taildir = 1;
+int taildir = 1; //dir but +1 where 0 = none
 int init = 0;
 
 void setup() {
@@ -49,7 +49,8 @@ void draw() {
 	/**
 	draws the board
 	*/
-	system('cls');
+	cout << "\033[2J\033[0;0H";
+	cout << "score: " << score << "\n";
 	for (int i = 0; i < boardX; i++) {
 		for (int j = 0; j < boardY; j++) {
 			if (board[i][j] == 1)
@@ -95,16 +96,16 @@ void logic() {
 	
 	switch (dir) {
 		case 0:
-			headY++;
+			headX--;
 			break;
 		case 1:
-			headX++;
+			headY++;
 			break;
 		case 2:
-			headY--;
+			headX++;
 			break;
 		case 3:
-			headX--;
+			headY--;
 			break;
 	}
 
@@ -125,16 +126,16 @@ void logic() {
 		
 	switch (taildir) {
 		case 1:
-			tailY++;
+			tailX--;
 			break;
 		case 2:
-			tailX++;
+			tailY++;
 			break;
 		case 3:
-			tailY--;
+			tailX++;
 			break;
 		case 4:
-			tailX--;
+			tailY--;
 			break;
 	}
 	
